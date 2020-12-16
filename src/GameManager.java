@@ -14,10 +14,15 @@ public class GameManager extends JFrame {
             manager.setVisible(true);
 
             // Test
-            board.addHeadDuck(new HeadDuck(20, 20));
-            board.addWaterLily(new WaterLily(10, 10));
-            board.addRock(new Rock(60, 60));
-            board.addDuck(new Duck(90, 90));
+            for (int i = 0; i <= 25; i += 1) {
+                Duck duck = new Duck(250, 250);
+                board.addDuck(duck);
+                duck.start();
+            }
+
+            // board.addHeadDuck(new HeadDuck(20, 20));
+            // board.addWaterLily(new WaterLily(10, 10));
+            // board.addRock(new Rock(60, 60));
         });
     }
 }

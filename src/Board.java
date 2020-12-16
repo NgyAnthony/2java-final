@@ -4,11 +4,12 @@ import java.awt.event.*;
 import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 
-public class Board extends JPanel {
+public class Board extends JPanel implements ActionListener{
     private ArrayList<Duck> ducks;
-    private ArrayList<Rock> rocks;
     private ArrayList<HeadDuck> headDucks;
+    private ArrayList<Rock> rocks;
     private ArrayList<WaterLily> waterLilies;
+    private Timer timer;
 
     public void addRock(Rock rock) {
         this.rocks.add(rock);
@@ -39,6 +40,8 @@ public class Board extends JPanel {
 
     Board() {
         preparePool();
+        timer = new Timer(90, this);
+        timer.start();
     }
 
     private void preparePool() {
@@ -80,6 +83,7 @@ public class Board extends JPanel {
         for(Duck duck : ducks) {
             int x = duck.getX();
             int y = duck.getY();
+
             Polygon poly = new Polygon(new int[] { x + 5, x + 10, x }, new int[] { y, y + 10, y + 10 }, 3);
             g2d.setColor(new Color(244, 208, 63));
             g2d.fill(poly);
@@ -115,5 +119,13 @@ public class Board extends JPanel {
         drawHeadDucks(g);
         drawWaterLilies(g);
         drawRocks(g);
+    }
+
+    // Repaint every second
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource()==timer){
+            repaint();
+        }
     }
 }
