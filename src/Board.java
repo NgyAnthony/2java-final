@@ -5,12 +5,32 @@ import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 
 public class Board extends JPanel implements ActionListener{
+    Board() {
+        preparePool();
+        // Timer for repaint
+        timer = new Timer(50, this);
+        timer.start();
+    }
+
+    // Singleton to allow access to arrays from ducks
+    private static final Board instance = new Board();
+
+    public static Board getInstance()
+    {
+        return instance;
+    }
+
+    public ArrayList<Rock> getRocks() {
+        return rocks;
+    }
+
     private ArrayList<Duck> ducks;
     private ArrayList<HeadDuck> headDucks;
     private ArrayList<Rock> rocks;
     private ArrayList<WaterLily> waterLilies;
     private Timer timer;
 
+    // Add and remove items from Arrays
     public void addRock(Rock rock) {
         this.rocks.add(rock);
     }
@@ -31,34 +51,12 @@ public class Board extends JPanel implements ActionListener{
         this.ducks.remove(duck);
     }
 
-    private JLabel liliesAmountLabel;
-    private JLabel ducksAmountLabel;
-    private JLabel headDucksAmountLabel;
-
-    Board() {
-        preparePool();
-        timer = new Timer(50, this);
-        timer.start();
-    }
-
+    // Init arrays
     private void preparePool() {
         ducks = new ArrayList<>();
         headDucks = new ArrayList<>();
         rocks = new ArrayList<>();
         waterLilies = new ArrayList<>();
-    }
-
-    // Setters for the amount of each element
-    public void setLiliesAmount(int liliesAmount) {
-        this.liliesAmountLabel.setText(String.valueOf(liliesAmount));
-    }
-
-    public void setDucksAmount(int ducksAmount) {
-        this.ducksAmountLabel.setText(String.valueOf(ducksAmount));
-    }
-
-    public void setHeadDucksAmount(int headDucksAmount) {
-        this.headDucksAmountLabel.setText(String.valueOf(headDucksAmount));
     }
 
     // Drawing items
