@@ -1,28 +1,32 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.Random;
 
 public class GameManager extends JFrame {
+    private final static Board board = new Board();
+    private final Random random;
+
     public GameManager() throws HeadlessException {
         setSize(550,550);
+        random = new Random();
+        SpawnDucks();
     }
 
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
             GameManager manager = new GameManager();
-            Board board = new Board();
             manager.add(board);
             manager.setVisible(true);
-
-            // Test
-            for (int i = 0; i <= 25; i += 1) {
-                Duck duck = new Duck(250, 250);
-                board.addDuck(duck);
-                duck.start();
-            }
-
-            // board.addHeadDuck(new HeadDuck(20, 20));
-            // board.addWaterLily(new WaterLily(10, 10));
-            // board.addRock(new Rock(60, 60));
         });
+    }
+
+    private void SpawnDucks() {
+        for (int i = 0; i <= 25; i += 1) {
+            int xSpawn = Math.abs(random.nextInt(500) - random.nextInt(500));
+            int ySpawn = Math.abs(random.nextInt(500) - random.nextInt(500));
+            Duck duck = new Duck(xSpawn, ySpawn);
+            board.addDuck(duck);
+            duck.start();
+        }
     }
 }

@@ -31,16 +31,13 @@ public class Board extends JPanel implements ActionListener{
         this.ducks.remove(duck);
     }
 
-    private int poolWidth;
-    private int poolHeight;
-
     private JLabel liliesAmountLabel;
     private JLabel ducksAmountLabel;
     private JLabel headDucksAmountLabel;
 
     Board() {
         preparePool();
-        timer = new Timer(90, this);
+        timer = new Timer(50, this);
         timer.start();
     }
 

@@ -55,9 +55,12 @@ public class Duck extends Thread implements PositionNode{
                 setX(getX() + stepx);
                 setY(getY() + stepy);
             }
-        }, 0, 300);
+        }, 0, 100);
     }
 
+    // Make duck eat, manage thread access to waterlily
+    // Make duck whistle
+    // Make duck bump on obstacles
 
 
 }
