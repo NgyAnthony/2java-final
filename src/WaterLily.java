@@ -7,12 +7,17 @@ public class WaterLily implements PositionNode{
     private final Lock verrou = new ReentrantLock();
     private int consumable;
     private final int oneBite = 1;
+    private final int consumableQty = 5;
     private final static Board board = Board.getInstance();
+
+    public int getConsumable() {
+        return consumable;
+    }
 
     public WaterLily(int x, int y) {
         this.x = x;
         this.y = y;
-        consumable = 5;
+        consumable = consumableQty;
     }
 
     public int eatWaterLily() throws InterruptedException {
@@ -22,10 +27,10 @@ public class WaterLily implements PositionNode{
             consumable -= oneBite;
             return oneBite;
         } finally {
-            verrou.unlock();
             if (consumable <= 0){
                 board.removeWaterLily(this);
             }
+            verrou.unlock();
         }
     }
 

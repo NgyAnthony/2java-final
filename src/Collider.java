@@ -24,11 +24,13 @@ public class Collider {
         boolean isNear = false;
 
         for(WaterLily waterLily : waterLilies) {
-            int xProximity = Math.abs(waterLily.getX() - x);
-            int yProximity = Math.abs(waterLily.getY() - y);
-            if (xProximity < 10 & yProximity < 10){
-                isNear = true;
-                break;
+            if (waterLily != null){
+                int xProximity = Math.abs(waterLily.getX() - x);
+                int yProximity = Math.abs(waterLily.getY() - y);
+                if (xProximity < 10 & yProximity < 10){
+                    isNear = true;
+                    break;
+                }
             }
         }
 

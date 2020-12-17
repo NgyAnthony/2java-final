@@ -11,14 +11,14 @@ public class GameManager extends JFrame implements ActionListener {
     private final Random random;
     private final int ducksNumber = 25;
     private final int rocksNumber = 10;
-    private final int waterLiliesNumber = 10;
+    private final int waterLiliesNumber = 20;
 
     public GameManager() throws HeadlessException {
         setSize(550,550);
         random = new Random();
         SpawnRocks();
-        SpawnDucks();
         SpawnWaterLilies();
+        SpawnDucks();
 
         timer = new Timer(50, this);
         timer.start();
@@ -65,7 +65,6 @@ public class GameManager extends JFrame implements ActionListener {
 
     private void SpawnWaterLilies() {
         while(waterLiliesNumber != board.getWaterLilies().size()){
-            System.out.println("SPAWNED");
             int xSpawn = getRandomPositionInBoard();
             int ySpawn = getRandomPositionInBoard();
 

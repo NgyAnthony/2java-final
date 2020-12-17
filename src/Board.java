@@ -55,7 +55,7 @@ public class Board extends JPanel implements ActionListener{
         this.ducks.add(duck);
     }
 
-    public void removeDucks(Duck duck){
+    public void removeDuck(Duck duck){
         this.ducks.remove(duck);
     }
 
@@ -97,6 +97,8 @@ public class Board extends JPanel implements ActionListener{
             } else {
                 g2d.setColor(new Color(244, 208, 63));
             }
+
+            g2d.drawString(String.valueOf(duck.getWeight()), x , y);
             g2d.fill(poly);
         }
     }
@@ -119,6 +121,7 @@ public class Board extends JPanel implements ActionListener{
             int x = waterLily.getX();
             int y = waterLily.getY();
             g2d.setColor(new Color(34, 153, 84));
+            g2d.drawString(String.valueOf(waterLily.getConsumable()), x , y);
             g2d.fillOval(x, y, 10, 10);
         }
     }
