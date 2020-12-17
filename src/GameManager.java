@@ -1,10 +1,13 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Random;
 
-public class GameManager extends JFrame {
+public class GameManager extends JFrame implements ActionListener {
     private final static Board board = Board.getInstance();
     private final static Collider collider = new Collider();
+    private Timer timer;
     private final Random random;
     private final int ducksNumber = 25;
     private final int rocksNumber = 10;
@@ -16,6 +19,9 @@ public class GameManager extends JFrame {
         SpawnRocks();
         SpawnDucks();
         SpawnWaterLilies();
+
+        timer = new Timer(50, this);
+        timer.start();
     }
 
     public static void main(String[] args) {
@@ -59,6 +65,7 @@ public class GameManager extends JFrame {
 
     private void SpawnWaterLilies() {
         while(waterLiliesNumber != board.getWaterLilies().size()){
+            System.out.println("SPAWNED");
             int xSpawn = getRandomPositionInBoard();
             int ySpawn = getRandomPositionInBoard();
 
@@ -73,4 +80,10 @@ public class GameManager extends JFrame {
         }
     }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource()==timer){
+            SpawnWaterLilies();
+        }
+    }
 }

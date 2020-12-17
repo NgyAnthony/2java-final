@@ -10,10 +10,18 @@ public class Duck extends Thread implements PositionNode{
     private int y;
     private final int maxX = 500;
     private final int maxY = 500;
+    private int weight;
+    private boolean eating;
+
+    public boolean isEating() {
+        return eating;
+    }
 
     public Duck(int x, int y) {
         this.x = x;
         this.y = y;
+        weight = 0;
+        eating = false;
     }
 
     @Override
@@ -58,16 +66,30 @@ public class Duck extends Thread implements PositionNode{
                 setX(getX() + stepx);
                 setY(getY() + stepy);
 
-                if (collider.waterLilyIsNear(getX(), getY())){
-                    WaterLily waterLily = collider.getClosestWaterLily(getX(), getY());
-                    if (waterLily != null){
-                        waterLily.eat();
-                    }
+                try {
+                    findAndEatWaterLily();
+                    eating = false;
+                } catch (InterruptedException e) {
+                    System.out.println("Water Lily has been eaten by another duck !");
                 }
             }
         }, 0, 100);
     }
 
-    // Make duck eat, manage thread access to waterlily
+    private void addWeight(int additionalWeight){
+        weight += additionalWeight;
+    }
+
+    private void findAndEatWaterLily() throws InterruptedException {
+        if (collider.waterLilyIsNear(getX(), getY())){
+            WaterLily waterLily = collider.getClosestWaterLily(getX(), getY());
+            if (waterLily != null){
+                eating = true;
+                int weightAdded = waterLily.eatWaterLily();
+                addWeight(weightAdded);
+            }
+        }
+    }
+
     // Make duck whistle
 }

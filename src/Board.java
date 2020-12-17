@@ -43,6 +43,10 @@ public class Board extends JPanel implements ActionListener{
         this.waterLilies.add(waterLily);
     }
 
+    public void removeWaterLily(WaterLily waterLily){
+        this.waterLilies.remove(waterLily);
+    }
+
     public void addHeadDuck(HeadDuck headDuck){
         this.headDucks.add(headDuck);
     }
@@ -71,7 +75,11 @@ public class Board extends JPanel implements ActionListener{
             int x = headDuck.getX();
             int y = headDuck.getY();
             Polygon poly = new Polygon(new int[] { x + 5, x + 10, x }, new int[] { y, y + 10, y + 10 }, 3);
-            g2d.setColor(new Color(135, 54, 0  ));
+            if (headDuck.isEating()){
+                g2d.setColor(new Color(0, 255, 0));
+            } else {
+                g2d.setColor(new Color(135, 54, 0  ));
+            }
             g2d.fill(poly);
         }
     }
@@ -84,7 +92,11 @@ public class Board extends JPanel implements ActionListener{
             int y = duck.getY();
 
             Polygon poly = new Polygon(new int[] { x + 5, x + 10, x }, new int[] { y, y + 10, y + 10 }, 3);
-            g2d.setColor(new Color(244, 208, 63));
+            if (duck.isEating()){
+                g2d.setColor(new Color(0, 255, 0));
+            } else {
+                g2d.setColor(new Color(244, 208, 63));
+            }
             g2d.fill(poly);
         }
     }
