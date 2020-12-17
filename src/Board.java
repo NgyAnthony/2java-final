@@ -30,6 +30,10 @@ public class Board extends JPanel implements ActionListener{
     private ArrayList<WaterLily> waterLilies;
     private Timer timer;
 
+    public ArrayList<WaterLily> getWaterLilies() {
+        return waterLilies;
+    }
+
     // Add and remove items from Arrays
     public void addRock(Rock rock) {
         this.rocks.add(rock);
