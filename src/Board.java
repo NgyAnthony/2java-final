@@ -1,13 +1,17 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.Ellipse2D;
-import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 
 public class Board extends JPanel implements ActionListener{
+    private static final Board instance = new Board();
+    private BlockingQueue<Duck> ducks;
+    private BlockingQueue<HeadDuck> headDucks;
+    private BlockingQueue<Rock> rocks;
+    private BlockingQueue<WaterLily> waterLilies;
+    private Timer timer;
+
     Board() {
         preparePool();
         // Timer for repaint
@@ -15,26 +19,23 @@ public class Board extends JPanel implements ActionListener{
         timer.start();
     }
 
-    // Singleton to allow access to arrays from ducks
-    private static final Board instance = new Board();
-
     public static Board getInstance()
     {
         return instance;
     }
 
+    // Blocking queues for each element of our game
+    // Using blocking queues to ensure we can access our lists with threads safely
     public BlockingQueue<Rock> getRocks() {
         return rocks;
     }
 
-    private BlockingQueue<Duck> ducks;
-    private BlockingQueue<HeadDuck> headDucks;
-    private BlockingQueue<Rock> rocks;
-    private BlockingQueue<WaterLily> waterLilies;
-    private Timer timer;
-
     public BlockingQueue<WaterLily> getWaterLilies() {
         return waterLilies;
+    }
+
+    public BlockingQueue<HeadDuck> getHeadDucks() {
+        return headDucks;
     }
 
     // Add and remove items from Arrays
@@ -80,8 +81,10 @@ public class Board extends JPanel implements ActionListener{
                 Polygon poly = new Polygon(new int[] { x + 5, x + 10, x }, new int[] { y, y + 10, y + 10 }, 3);
                 if (headDuck.isEating()){
                     g2d.setColor(new Color(231, 76, 60));
+                } else if (headDuck.isWhistling()){
+                    g2d.setColor(new Color(142, 68, 173));
                 } else {
-                    g2d.setColor(new Color(33, 97, 140    ));
+                    g2d.setColor(new Color(33, 97, 140));
                 }
 
                 if (headDuck.getWeight() > 0){
@@ -103,6 +106,8 @@ public class Board extends JPanel implements ActionListener{
             Polygon poly = new Polygon(new int[] { x + 5, x + 10, x }, new int[] { y, y + 10, y + 10 }, 3);
             if (duck.isEating()){
                 g2d.setColor(new Color(0, 255, 0));
+            } else if (duck.getLeader() != null){
+                g2d.setColor(new Color(210, 180, 222));
             } else {
                 g2d.setColor(new Color(244, 208, 63));
             }

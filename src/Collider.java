@@ -44,4 +44,14 @@ public class Collider {
         }
         return target;
     }
+
+    public int getDeltaToHeadDuck(HeadDuck headDuck, int x, int y){
+        if (headDuck != null){
+            int xProximity = Math.abs(headDuck.getX() - x);
+            int yProximity = Math.abs(headDuck.getY() - y);
+            return xProximity + yProximity;
+        } else {
+            return 10000;
+        }
+    }
 }
