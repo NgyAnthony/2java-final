@@ -1,14 +1,5 @@
-import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
-import java.util.NoSuchElementException;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
 public class Collider {
     private final static Board board = Board.getInstance();
-    private final Lock verrou = new ReentrantLock();
-    private final Lock verrou2 = new ReentrantLock();
 
     public boolean pathIsClear(int x, int y) {
         boolean pathClear = true;

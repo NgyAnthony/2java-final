@@ -1,6 +1,3 @@
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -11,18 +8,16 @@ public class Duck extends Thread implements PositionNode {
     protected final static DuckLifetime duckLifetime = new DuckLifetime();
     protected int x;
     protected int y;
-
     protected int weight;
     protected boolean eating;
     protected Timer starveTimer;
     protected Timer moveTimer;
-
-    protected final int maxX = 500;
-    protected final int maxY = 500;
-    protected final int starve = 10000;
-    protected final int move = 100;
-    protected final int initialWeight = 10;
-    protected final int promoteWeight = 15;
+    private final int xGameSize = 600; // CONFIGURABLE
+    private final int yGameSize = 600; // CONFIGURABLE
+    protected final int starve = 10000; // CONFIGURABLE
+    protected final int move = 100; // CONFIGURABLE
+    protected final int initialWeight = 10; // CONFIGURABLE
+    protected final int promoteWeight = 15; // CONFIGURABLE
 
     public Duck(int x, int y) {
         this.x = x;
@@ -32,6 +27,30 @@ public class Duck extends Thread implements PositionNode {
 
         moveTimer = new Timer();
         starveTimer = new Timer();
+    }
+
+    @Override
+    public int getX() {
+        return x;
+    }
+
+    @Override
+    public void setX(int x) {
+        if (xGameSize > x & x > 0 & collider.pathIsClear(x, y)){
+            this.x = x;
+        }
+    }
+
+    @Override
+    public int getY() {
+        return y;
+    }
+
+    @Override
+    public void setY(int y) {
+        if (yGameSize > y & y > 0 & collider.pathIsClear(x, y)){
+            this.y = y;
+        }
     }
 
     public int getWeight() {
@@ -51,30 +70,6 @@ public class Duck extends Thread implements PositionNode {
         move();
         vision(false);
         starve();
-    }
-
-    @Override
-    public int getX() {
-        return x;
-    }
-
-    @Override
-    public void setX(int x) {
-        if (maxX > x & x > 0 & collider.pathIsClear(x, y)){
-            this.x = x;
-        }
-    }
-
-    @Override
-    public int getY() {
-        return y;
-    }
-
-    @Override
-    public void setY(int y) {
-        if (maxY > y & y > 0 & collider.pathIsClear(x, y)){
-            this.y = y;
-        }
     }
 
     public void move() {

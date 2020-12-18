@@ -9,12 +9,16 @@ public class GameManager extends JFrame implements ActionListener {
     private final static Collider collider = new Collider();
     private Timer timer;
     private final Random random;
-    private final int ducksNumber = 20;
-    private final int rocksNumber = 10;
-    private final int waterLiliesNumber = 50;
+    private final int ducksNumber = 20; // CONFIGURABLE
+    private final int rocksNumber = 10; // CONFIGURABLE
+    private final int waterLiliesNumber = 50; // CONFIGURABLE
+    private final int xWindowSize = 610; // CONFIGURABLE
+    private final int yWindowSize = 610; // CONFIGURABLE
+    private final int xGameSize = 600; // CONFIGURABLE
+    private final int yGameSize = 600; // CONFIGURABLE
 
     public GameManager() throws HeadlessException {
-        setSize(550,550);
+        setSize(xWindowSize,yWindowSize);
         random = new Random();
         SpawnRocks();
         SpawnWaterLilies();
@@ -33,9 +37,8 @@ public class GameManager extends JFrame implements ActionListener {
     }
 
     private int getRandomPositionInBoard(){
-        return Math.abs(random.nextInt(500) - random.nextInt(500));
+        return Math.abs(random.nextInt(xGameSize) - random.nextInt(yGameSize));
     }
-
 
     private void SpawnRocks() {
         for (int i = 0; i <= rocksNumber; i += 1) {
