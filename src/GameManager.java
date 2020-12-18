@@ -9,9 +9,9 @@ public class GameManager extends JFrame implements ActionListener {
     private final static Collider collider = new Collider();
     private Timer timer;
     private final Random random;
-    private final int ducksNumber = 25;
+    private final int ducksNumber = 20;
     private final int rocksNumber = 10;
-    private final int waterLiliesNumber = 20;
+    private final int waterLiliesNumber = 50;
 
     public GameManager() throws HeadlessException {
         setSize(550,550);

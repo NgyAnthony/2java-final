@@ -6,7 +6,9 @@ public class DuckLifetime {
     }
 
     public void promoteDuck(Duck duck){
-        board.addHeadDuck(new HeadDuck(duck.getX(), duck.getY()));
+        HeadDuck headDuck = new HeadDuck(duck.getX(), duck.getY());
+        headDuck.setWeight(duck.getWeight());
+        board.addHeadDuck(headDuck);
         board.removeDuck(duck);
     }
 }

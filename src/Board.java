@@ -3,6 +3,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingDeque;
 
 public class Board extends JPanel implements ActionListener{
     Board() {
@@ -20,17 +23,17 @@ public class Board extends JPanel implements ActionListener{
         return instance;
     }
 
-    public ArrayList<Rock> getRocks() {
+    public BlockingQueue<Rock> getRocks() {
         return rocks;
     }
 
-    private ArrayList<Duck> ducks;
-    private ArrayList<HeadDuck> headDucks;
-    private ArrayList<Rock> rocks;
-    private ArrayList<WaterLily> waterLilies;
+    private BlockingQueue<Duck> ducks;
+    private BlockingQueue<HeadDuck> headDucks;
+    private BlockingQueue<Rock> rocks;
+    private BlockingQueue<WaterLily> waterLilies;
     private Timer timer;
 
-    public ArrayList<WaterLily> getWaterLilies() {
+    public BlockingQueue<WaterLily> getWaterLilies() {
         return waterLilies;
     }
 
@@ -61,32 +64,38 @@ public class Board extends JPanel implements ActionListener{
 
     // Init arrays
     private void preparePool() {
-        ducks = new ArrayList<>();
-        headDucks = new ArrayList<>();
-        rocks = new ArrayList<>();
-        waterLilies = new ArrayList<>();
+        ducks = new LinkedBlockingDeque<>();
+        headDucks = new LinkedBlockingDeque<>();
+        rocks = new LinkedBlockingDeque<>();
+        waterLilies = new LinkedBlockingDeque<>();
     }
 
     // Drawing items
     public void drawHeadDucks(Graphics g){
         Graphics2D g2d = (Graphics2D) g;
+        try {
+            for(HeadDuck headDuck : headDucks) {
+                int x = headDuck.getX();
+                int y = headDuck.getY();
+                Polygon poly = new Polygon(new int[] { x + 5, x + 10, x }, new int[] { y, y + 10, y + 10 }, 3);
+                if (headDuck.isEating()){
+                    g2d.setColor(new Color(231, 76, 60));
+                } else {
+                    g2d.setColor(new Color(33, 97, 140    ));
+                }
 
-        for(HeadDuck headDuck : headDucks) {
-            int x = headDuck.getX();
-            int y = headDuck.getY();
-            Polygon poly = new Polygon(new int[] { x + 5, x + 10, x }, new int[] { y, y + 10, y + 10 }, 3);
-            if (headDuck.isEating()){
-                g2d.setColor(new Color(0, 255, 0));
-            } else {
-                g2d.setColor(new Color(135, 54, 0  ));
+                if (headDuck.getWeight() > 0){
+                    g2d.drawString(String.valueOf(headDuck.getWeight()), x , y);
+                    g2d.fill(poly);
+                }
             }
-            g2d.fill(poly);
+        } catch (NullPointerException e){
+            System.out.println("Error: Head duck starved to death, can't draw it.");
         }
     }
 
     public void drawDucks(Graphics g){
         Graphics2D g2d = (Graphics2D) g;
-
         for(Duck duck : ducks) {
             int x = duck.getX();
             int y = duck.getY();
